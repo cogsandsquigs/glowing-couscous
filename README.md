@@ -1,4 +1,4 @@
-# **Ja**vascript **R**ust JS**F**uck
+# **Ja**vascript **R**ust JS**F**uck **E**ngine
 
 An implementation of [JSFuck](https://en.wikipedia.org/wiki/JSFuck) written in rust.
 
