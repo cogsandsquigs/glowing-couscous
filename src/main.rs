@@ -5,16 +5,18 @@ use clap::Parser;
 use std::fs::File;
 use std::io::prelude::*;
 
-/// Simple program to greet a person
+/// Translates a regular javascript program into a JSFuck program,
+/// a valid (!) program that only uses the characters +, !, [, ],
+/// (, and ).
 #[derive(Clone, Debug, Parser)]
 #[command(author, version, about, long_about = None)]
 struct Args {
     /// The filename to parse the javascript from
-    #[arg(short, long)]
+    // #[arg(short, long)]
     filename: String,
 
     /// The output file
-    #[arg(short, long, default_value = "jsfuck.js")]
+    #[arg(short, long, default_value = "fuck.js")]
     output: String,
 }
 
@@ -30,5 +32,11 @@ fn main() {
         .expect("Error while reading file");
 
     let obfusicated = obfusicate(js.as_str());
-    println!("{}", obfusicated);
+
+    let mut output = File::create(args.output.clone())
+        .expect(format!("Error while creating file `{}`", args.output).as_str());
+
+    output
+        .write(obfusicated.as_bytes())
+        .expect(format!("Error while writing to file `{}`", args.output).as_str());
 }
