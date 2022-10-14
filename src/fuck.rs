@@ -6,15 +6,8 @@ const ZERO: &str = "+[]";
 /// into an integer type, which is `1`, as the value is `true`.
 const ONE: &str = "+!![]";
 
-/// Encodes true. Works becuase `+[]` is zero, and `!` coerces it into `true`
-/// (as `0` is `false`, so `!0` is `true`).
-const TRUE: &str = "!+[]";
-
-/// Encodes false. Works because `!` coerces `[]` into a boolean type (`false`).
-const FALSE: &str = "![]";
-
 /// Encodes any number into a JSFuck number
-pub fn encode_number(n: isize) -> String {
+fn encode_number(n: isize) -> String {
     if n == 0 {
         ZERO.into() // just return zero
     } else if n == 1 {
@@ -29,7 +22,7 @@ pub fn encode_number(n: isize) -> String {
 }
 
 /// Encodes an arbitrary character into a JSFuck character
-pub fn encode_character(c: char) -> String {
+fn encode_character(c: char) -> String {
     // We first need to get the characters to make the following strings:
     // - "flat"
     // - "constructor"
@@ -100,15 +93,36 @@ pub fn encode_character(c: char) -> String {
             "([]+[][(![]+[])[+[]]+(![]+[])[+!![] +  + +!![]]+(![]+[])[+!![]]+(!+[]+[])[+[]]])[{}]",
             encode_number(8)
         ),
-        _ => todo!(),
+        c => {
+            let char_code = c as isize; // Gets the ascii char code for any other character
+
+            // Then converts it into jsfuck stuff
+            format!(
+                "([]+[])[{}][{}]({})",
+                encode_string("constructor"),
+                encode_string("fromCharCode"),
+                encode_number(char_code),
+            )
+        }
     }
 }
 
 /// Encodes an arbitrary string into JSFuck characters.
 /// Note: returns js string type.
-pub fn encode_string(s: &str) -> String {
+fn encode_string(s: &str) -> String {
     s.chars() //gets the characters
         .map(encode_character) // maps them into jsfuck chars
         .collect::<Vec<String>>() // collects them for the next part
         .join("+") // joins and concatenates them as a string
+}
+
+/// Takes in a js program and returns a JSFuck program
+pub fn obfusicate(program: &str) -> String {
+    format!(
+        "[][{}][{}]({})()({})",
+        encode_string("flat"),
+        encode_string("constructor"),
+        encode_string("return eval"),
+        encode_string(program),
+    )
 }

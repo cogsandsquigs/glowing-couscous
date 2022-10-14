@@ -1,7 +1,7 @@
 pub mod fuck;
 
-use crate::fuck::encode_string;
+use crate::fuck::obfusicate;
 
 fn main() {
-    println!("{}", encode_string("fromCharCode"));
+    println!("{}", obfusicate("console.log(\"hello world!\")"));
 }
