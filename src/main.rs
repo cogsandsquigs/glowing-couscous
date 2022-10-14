@@ -12,7 +12,6 @@ use std::io::prelude::*;
 #[command(author, version, about, long_about = None)]
 struct Args {
     /// The filename to parse the javascript from
-    // #[arg(short, long)]
     filename: String,
 
     /// The output file
