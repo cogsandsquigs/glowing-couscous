@@ -4,7 +4,7 @@ const ZERO: &str = "+[]";
 /// Encodes one. Works because `!` coerces `[]` into a boolean type (`false`),
 /// and then the next `!` coerces it into `true`. The final `+` coerces it
 /// into an integer type, which is `1`, as the value is `true`.
-const ONE: &str = " +!![] ";
+const ONE: &str = "+!![]";
 
 /// Encodes true. Works becuase `+[]` is zero, and `!` coerces it into `true`
 /// (as `0` is `false`, so `!0` is `true`).
@@ -30,24 +30,76 @@ pub fn encode_number(n: isize) -> String {
 
 /// Encodes an arbitrary character into a JSFuck character
 pub fn encode_character(c: char) -> String {
-    // We first need to get the characters to make `
-    // c, o, t, r, u, m, C, h, d
+    // We first need to get the characters to make the following strings:
+    // - "flat"
+    // - "constructor"
+    // - "return escape"
+    // - "fromCharCode"
     match c {
         'a' => format!("(![]+[])[{}]", encode_number(1)),
+        'b' => format!(
+            "([]+(+[])[{}])[{}]",
+            encode_string("constructor"),
+            encode_number(12)
+        ),
+        'c' => format!(
+            "([]+[][(![]+[])[+[]]+(![]+[])[+!![] +  + +!![]]+(![]+[])[+!![]]+(!+[]+[])[+[]]])[{}]",
+            encode_number(3)
+        ),
+        'C' => format!(
+            "([][{}][{}]({})()([]+ +[]+ {}))[{}]",
+            encode_string("flat"),
+            encode_string("constructor"),
+            encode_string("return btoa"),
+            encode_character(' '),
+            encode_number(1)
+        ),
+        'd' => format!("([]+[][[]])[{}]", encode_number(2)),
         'e' => format!("(![]+[])[{}]", encode_number(4)),
         'f' => format!("(![]+[])[{}]", encode_number(0)),
+        'g' => format!(
+            "([]+([]+[])[{}])[{}]",
+            encode_string("constructor"),
+            encode_number(14)
+        ),
+        'h' => format!(
+            "({})[{}]({})",
+            encode_number(17),
+            encode_string("toString"),
+            encode_number(18)
+        ),
         'i' => format!(
             "([]+ +(+!+[]+(!+[]+[])[!+[]+!+[]+!+[]]+[+!+[]]+[+[]]+[+[]]+[+[]]))[{}]",
             encode_number(3)
         ),
         'l' => format!("(![]+[])[{}]", encode_number(2)),
+        'm' => format!(
+            "({})[{}]({})",
+            encode_number(22),
+            encode_string("toString"),
+            encode_number(23)
+        ),
         'n' => format!(
             "([]+ +(+!+[]+(!+[]+[])[!+[]+!+[]+!+[]]+[+!+[]]+[+[]]+[+[]]+[+[]]))[{}]",
             encode_number(1)
         ),
+        'o' => format!(
+            "([]+[][(![]+[])[+[]]+(![]+[])[+!![] +  + +!![]]+(![]+[])[+!![]]+(!+[]+[])[+[]]])[{}]",
+            encode_number(6)
+        ),
         'r' => format!("(!+[]+[])[{}]", encode_number(1)),
         's' => format!("(![]+[])[{}]", encode_number(3)),
+        'S' => format!(
+            "([]+([]+[])[{}])[{}]",
+            encode_string("constructor"),
+            encode_number(9)
+        ),
         't' => format!("(!+[]+[])[{}]", encode_number(0)),
+        'u' => format!("([]+[][[]])[{}]", encode_number(0)),
+        ' ' => format!(
+            "([]+[][(![]+[])[+[]]+(![]+[])[+!![] +  + +!![]]+(![]+[])[+!![]]+(!+[]+[])[+[]]])[{}]",
+            encode_number(8)
+        ),
         _ => todo!(),
     }
 }

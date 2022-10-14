@@ -1,7 +1,7 @@
 pub mod fuck;
 
-use crate::fuck::encode_number;
+use crate::fuck::encode_string;
 
 fn main() {
-    println!("{}", encode_number(-10));
+    println!("{}", encode_string("fromCharCode"));
 }
