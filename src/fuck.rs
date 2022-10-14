@@ -33,7 +33,7 @@ pub fn encode_character(c: char) -> String {
     // We first need to get the characters to make the following strings:
     // - "flat"
     // - "constructor"
-    // - "return escape"
+    // - "return btoa"
     // - "fromCharCode"
     match c {
         'a' => format!("(![]+[])[{}]", encode_number(1)),
