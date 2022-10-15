@@ -13,3 +13,7 @@ I was bored. I saw this online, written in JS. Rust, being the obviously superio
 ## How to use
 
 Just run `jarfe -h` to see the help message. It will tell you how to use it. It's pretty self-explanatory.
+
+## Notes
+
+-   There is currently only a linux binary available
