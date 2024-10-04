@@ -23,19 +23,19 @@ fn main() {
     let args = Args::parse();
 
     let mut file = File::open(args.filename.clone())
-        .expect(format!("File `{}` not found", args.filename).as_str());
+        .unwrap_or_else(|_| panic!("File `{}` not found", args.filename));
 
     let mut js = String::new();
 
-    file.read_to_string(&mut &mut js)
+    file.read_to_string(&mut js)
         .expect("Error while reading file");
 
     let obfusicated = obfusicate(js.as_str());
 
     let mut output = File::create(args.output.clone())
-        .expect(format!("Error while creating file `{}`", args.output).as_str());
+        .unwrap_or_else(|_| panic!("Error while creating file `{}`", args.output));
 
     output
-        .write(obfusicated.as_bytes())
-        .expect(format!("Error while writing to file `{}`", args.output).as_str());
+        .write_all(obfusicated.as_bytes())
+        .unwrap_or_else(|_| panic!("Error while writing to file `{}`", args.output));
 }
